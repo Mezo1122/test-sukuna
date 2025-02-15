@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام التهكير السري</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: black;
+            color: lime;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        /* Effect for the noise */
+        .noise-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.imgur.com/5JZJR6L.gif') no-repeat center center;
+            background-size: cover;
+            z-index: 9999;
+            animation: fadeOut 3s ease-in-out forwards;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 5px;
+            background-color: #333;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background-color: lime;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .result {
+            display: none;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .data-leak {
+            display: none;
+            font-size: 20px;
+            color: red;
+            margin-top: 20px;
+            animation: blink 1s infinite alternate;
+        }
+
+        .final-message {
+            display: none;
+            font-size: 28px;
+            color: white;
+            margin-top: 20px;
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+
+        /* Blink animation */
+        @keyframes blink {
+            0% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+
+        /* Fade in animation */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Noise Effect -->
+    <div class="noise-effect"></div>
+
+    <!-- Console Screen -->
+    <p id="browser-loading-message" style="display: none;">جارٍ تحميل متصفح...</p>
+    <div class="loading-bar">
+        <div class="loading-progress"></div>
+    </div>
+    <div class="result" id="final-result" style="display: none;">انتهى التهكير!</div>
+    <div class="data-leak" id="leaked-data" style="display: none;">
+        انت اسمك <strong>إيهاب</strong><br>
+        وأصدقاءك:<br>
+        - <strong>باسل</strong><br>
+        - <strong>مازن</strong><br>
+        - <strong>براء</strong><br>
+    </div>
+    <div class="final-message" id="final-hack-message" style="display: none;">
+        تم تهكيرك من قبل <strong>سوكونا</strong>!
+    </div>
+
+    <script>
+        // Show browser loading message after noise effect fades out
+        setTimeout(() => {
+            document.querySelector('.noise-effect').style.display = 'none';
+            document.getElementById('browser-loading-message').style.display = 'block';
+
+            // Simulate browser loading process
+            let progress = 0;
+            const loadingProgress = document.querySelector('.loading-progress');
+            const finalResult = document.getElementById('final-result');
+            const leakedData = document.getElementById('leaked-data');
+            const finalHackMessage = document.getElementById('final-hack-message');
+
+            function updateProgress() {
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    finalResult.style.display = 'block'; // Show the final result message
+
+                    // After a delay, show the data leak message
+                    setTimeout(() => {
+                        finalResult.style.display = 'none';
+                        leakedData.style.display = 'block';
+
+                        // After another delay, show the final hack message
+                        setTimeout(() => {
+                            finalHackMessage.style.display = 'block';
+                        }, 2000); // Wait 2 seconds before showing the final hack message
+                    }, 2000); // Wait 2 seconds before showing the data leak message
+                    return;
+                }
+                progress += Math.random() * 5; // Random progress
+                if (progress > 100) progress = 100;
+                loadingProgress.style.width = progress + '%';
+            }
+
+            const interval = setInterval(updateProgress, 300);
+
+        }, 3000); // Wait 3 seconds for the noise effect to fade out
+    </script>
+
+</body>
+</html>
